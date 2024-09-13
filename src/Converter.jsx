@@ -17,12 +17,12 @@ function Converter() {
   const [leftToRight, setLeftToRight] = React.useState(true);
 
   const handleClick = () => {
-    setValues((prevValues) => ({
-        from: !leftToRight ? prevValues.from : prevValues.to,
-        to: !leftToRight ? prevValues.to : prevValues.from,
-      }));
-    
-      setLeftToRight((prevLeftToRight) => !prevLeftToRight);
+    setValues({
+      from: values.to,
+      to: values.from,
+    });
+
+    setLeftToRight(!leftToRight);
   };
 
   return (
