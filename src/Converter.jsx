@@ -8,21 +8,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 
 const initialState = {
-  from: 100,
-  to: 500,
+  from: {
+    amount: 100,
+    coin: 2,
+  },
+  to: {
+    amount: 500,
+    coin: 1,
+  },
 };
 
 function Converter() {
   const [values, setValues] = React.useState(initialState);
-  const [leftToRight, setLeftToRight] = React.useState(true);
 
   const handleClick = () => {
     setValues({
       from: values.to,
       to: values.from,
     });
-
-    setLeftToRight(!leftToRight);
   };
 
   return (
@@ -31,14 +34,14 @@ function Converter() {
         <InputGroup>
           <FloatingLabel controlId="fromInput" label="From">
             <Form.Control
-              type="text"
+              type="number"
               placeholder="0"
-              value={values.from}
-              defaultValue={values.from}
+              value={values.from.amount}
+              defaultValue={values.from.amount}
             />
           </FloatingLabel>
           <FloatingLabel controlId="from" label="Coin">
-            <Form.Select>
+            <Form.Select value={values.from.coin}>
               <option value="1">One</option>
               <option value="2">Two</option>
               <option value="3">Three</option>
@@ -55,12 +58,12 @@ function Converter() {
             <Form.Control
               type="text"
               placeholder="0"
-              value={values.to}
-              defaultValue={values.to}
+              value={values.to.amount}
+              defaultValue={values.to.amount}
             />
           </FloatingLabel>
           <FloatingLabel controlId="to" label="Coin">
-            <Form.Select>
+            <Form.Select value={values.to.coin}>
               <option value="1">One</option>
               <option value="2">Two</option>
               <option value="3">Three</option>
