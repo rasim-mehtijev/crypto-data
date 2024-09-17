@@ -28,20 +28,51 @@ function Converter() {
     });
   };
 
+  const handleOnChage = (event) => {
+    const field = event.target.name;
+    const value = event.target.value;
+
+    setValues({
+      ...values,
+      [field]: {
+        ...values[field],
+        amount: value,
+      },
+    });
+  };
+
+  const handleOnSelect = (event) => {
+    const field = event.target.name;
+    const value = event.target.value;
+
+    setValues({
+      ...values,
+      [field]: {
+        ...values[field],
+        coin: value,
+      },
+    });
+  };
+
   return (
     <Row className="g-2">
       <Col md>
         <InputGroup>
           <FloatingLabel controlId="fromInput" label="From">
             <Form.Control
-              type="number"
+              name="from"
+              type="text"
               placeholder="0"
               value={values.from.amount}
-              defaultValue={values.from.amount}
+              onChange={handleOnChage}
             />
           </FloatingLabel>
           <FloatingLabel controlId="from" label="Coin">
-            <Form.Select value={values.from.coin}>
+            <Form.Select
+              value={values.from.coin}
+              name="from"
+              onChange={handleOnSelect}
+            >
               <option value="1">One</option>
               <option value="2">Two</option>
               <option value="3">Three</option>
@@ -56,14 +87,19 @@ function Converter() {
         <InputGroup>
           <FloatingLabel controlId="toInput" label="To">
             <Form.Control
+              name="to"
               type="text"
               placeholder="0"
               value={values.to.amount}
-              defaultValue={values.to.amount}
+              onChange={handleOnChage}
             />
           </FloatingLabel>
           <FloatingLabel controlId="to" label="Coin">
-            <Form.Select value={values.to.coin}>
+            <Form.Select
+              value={values.to.coin}
+              name="to"
+              onChange={handleOnSelect}
+            >
               <option value="1">One</option>
               <option value="2">Two</option>
               <option value="3">Three</option>
