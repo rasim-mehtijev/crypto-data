@@ -20,8 +20,6 @@ function CoinPage() {
     getCoinById("btc-bitcoin").then(setCoinData);
   }, []);
 
-  console.log(coinData);
-
   return (
     <>
       <CoinPriceSection />
