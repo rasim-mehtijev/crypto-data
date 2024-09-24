@@ -7,7 +7,7 @@ import { currencies } from "./constants";
 
 function App() {
   const [selectedCurrency, setSelectedCurrency] = React.useState(currencies[0]);
-  console.log('selectedCurrency', selectedCurrency);
+
   return (
     <Container>
       <Header
