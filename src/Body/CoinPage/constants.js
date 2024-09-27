@@ -1,34 +1,42 @@
 import moment from "moment";
 
+const toRequestUnix = (momentObj) => momentObj.add(10, "second").utc().unix();
+
 export const periods = [
   {
     label: "1d",
-    start: moment().subtract(1, "day").add(10, "second").utc().unix(),
+    start: () => toRequestUnix(moment().subtract(1, "day")),
     interval: "1h",
+    format: "HH:mm",
   },
   {
     label: "7d",
-    start: null,
+    start: () => toRequestUnix(moment().subtract(7, "days")),
     interval: "1d",
+    format: "DD MMM",
   },
   {
     label: "30d",
-    start: null,
-    inteval: "1d",
+    start: () => toRequestUnix(moment().subtract(30, "days")),
+    interval: "1d",
+    format: "DD MMM",
   },
   {
     label: "1q",
-    start: null,
+    start: () => toRequestUnix(moment().subtract(90, "days")),
     interval: "7d",
+    format: "DD MMM",
   },
   {
     label: "1y",
-    start: null,
+    start: () => toRequestUnix(moment().subtract(365, "days")),
     interval: "7d",
+    format: "DD MMM",
   },
   {
     label: "YTD",
-    start: null,
+    start: () => toRequestUnix(moment().startOf("year")),
     interval: "7d",
+    format: "DD MMM",
   },
 ];

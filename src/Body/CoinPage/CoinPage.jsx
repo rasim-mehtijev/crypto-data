@@ -9,6 +9,7 @@ import Button from "react-bootstrap/Button";
 import ChartModal from "./ChartModal";
 import { getCoinById, getHistoricalData } from "../../services/api";
 import { periods } from "./constants";
+import moment from "moment";
 
 function CoinPage({ selectedCurrency }) {
   const [chartModalShow, setChartModalShow] = React.useState(false);
@@ -27,12 +28,17 @@ function CoinPage({ selectedCurrency }) {
     getHistoricalData({
       id: "btc-bitcoin",
       currency: selectedCurrency.name,
-      start: selectedPeriod.start,
+      start: selectedPeriod.start(),
       interval: selectedPeriod.interval,
-    }).then(setHistoricalData);
-  }, [selectedPeriod]);
-
-  console.log(historicalData);
+    }).then((data) =>
+      setHistoricalData(
+        data?.map(({ timestamp, ...rest }) => ({
+          ...rest,
+          timestamp: moment(timestamp).format(selectedPeriod.format),
+        }))
+      )
+    );
+  }, [selectedPeriod, selectedCurrency]);
 
   return (
     <>
@@ -42,7 +48,7 @@ function CoinPage({ selectedCurrency }) {
           <CoinMetrics {...coinData} currency={selectedCurrency} />
         </Col>
         <Col md={8}>
-          <CoinChart />
+          <CoinChart data={historicalData} />
           <Row>
             <Col>
               <ChartPeriods
@@ -59,8 +65,11 @@ function CoinPage({ selectedCurrency }) {
         </Col>
       </Row>
       <ChartModal show={chartModalShow} handleClose={handleClose}>
-        <CoinChart />
-        <ChartPeriods />
+        <CoinChart data={historicalData} />
+        <ChartPeriods
+          selectedPeriod={selectedPeriod}
+          setSelectedPeriod={setSelectedPeriod}
+        />
       </ChartModal>
     </>
   );
