@@ -1,6 +1,7 @@
 import { NumericFormat } from "react-number-format";
 
 const PriceNumber = ({ value, symbol }) => {
+  console.log('PriceNumber');
   return (
     <NumericFormat
       value={value}

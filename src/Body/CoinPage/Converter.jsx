@@ -6,20 +6,44 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
+import { getPriceConverter } from "../../services/api";
+import { useSelector } from "react-redux";
 
 const initialState = {
   from: {
-    amount: 100,
-    coin: 2,
+    amount: 0,
+    coin: "btc-bitcoin",
   },
   to: {
-    amount: 500,
-    coin: 1,
+    amount: 0,
+    coin: "eth-ethereum",
   },
 };
 
 function Converter() {
+  console.log("Converter");
   const [values, setValues] = React.useState(initialState);
+
+  const coinList = useSelector((state) => state.coinList);
+
+  React.useEffect(() => {
+    (async () => {
+      // immediately invoked function
+      const data = await getPriceConverter({
+        baseCurrency: values.from.coin,
+        quoteCurrency: values.to.coin,
+        amount: values.from.amount,
+      });
+
+      setValues({
+        ...values,
+        to: {
+          ...values.to,
+          amount: data.price,
+        },
+      });
+    })();
+  }, [values.from.amount, values.from.coin, values.to.coin]);
 
   const handleClick = () => {
     setValues({
@@ -54,9 +78,11 @@ function Converter() {
     });
   };
 
+  if (!coinList.length) return null;
+
   return (
     <Row className="g-2">
-      <Col md>
+      <Col md={5}>
         <InputGroup>
           <FloatingLabel controlId="fromInput" label="From">
             <Form.Control
@@ -73,17 +99,19 @@ function Converter() {
               name="from"
               onChange={handleOnSelect}
             >
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              {coinList.map((coin) => (
+                <option key={coin.id} value={coin.id}>
+                  {coin.name}
+                </option>
+              ))}
             </Form.Select>
           </FloatingLabel>
         </InputGroup>
       </Col>
-      <Col>
+      <Col md={2}>
         <FontAwesomeIcon icon={faArrowsRotate} onClick={handleClick} />
       </Col>
-      <Col md>
+      <Col md={5}>
         <InputGroup>
           <FloatingLabel controlId="toInput" label="To">
             <Form.Control
@@ -100,9 +128,11 @@ function Converter() {
               name="to"
               onChange={handleOnSelect}
             >
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              {coinList.map((coin) => (
+                <option key={coin.id} value={coin.id}>
+                  {coin.name}
+                </option>
+              ))}
             </Form.Select>
           </FloatingLabel>
         </InputGroup>
