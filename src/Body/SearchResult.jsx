@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getSearch } from "../services/api";
 
 function SearchResult() {
+  console.log('SearchResult');
   const { q } = useParams();
   const [result, setResult] = React.useState({});
 

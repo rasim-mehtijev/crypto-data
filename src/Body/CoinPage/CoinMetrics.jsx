@@ -1,6 +1,7 @@
 import Table from "react-bootstrap/Table";
 
 function CoinMetrics({ name, symbol, quotes, currency, total_supply }) {
+  console.log('CoinMetrics');
   return (
     <>
       <h3>

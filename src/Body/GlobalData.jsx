@@ -3,6 +3,7 @@ import Table from "react-bootstrap/Table";
 import { getGlobalData } from "../services/api";
 
 function GlobalData() {
+  console.log('GlobalData');
   const [globalData, setGlobalData] = React.useState({});
 
   React.useEffect(() => {

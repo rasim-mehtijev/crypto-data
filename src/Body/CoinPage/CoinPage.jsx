@@ -12,14 +12,18 @@ import { periods } from "./constants";
 import moment from "moment";
 import { useParams } from "react-router-dom";
 import Converter from "./Converter";
-import ErrorModal from "../ErrorModal";
+import { useSelector, useDispatch } from "react-redux";
+import { setErrorMessage } from "../../services/store";
 
-function CoinPage({ selectedCurrency }) {
+function CoinPage() {
+  console.log("CoinPage");
+  const dispatch = useDispatch();
   const [chartModalShow, setChartModalShow] = React.useState(false);
   const [coinData, setCoinData] = React.useState({});
   const [historicalData, setHistoricalData] = React.useState([]);
   const [selectedPeriod, setSelectedPeriod] = React.useState(periods[0]);
-  const [errorMessage, setErrorMessage] = React.useState(null);
+
+  const selectedCurrency = useSelector((state) => state.selectedCurrency);
 
   const { coinId } = useParams();
 
@@ -46,9 +50,11 @@ function CoinPage({ selectedCurrency }) {
         )
       )
       .catch((error) =>
-        setErrorMessage(
-          "Historical data is not avaible at the moment. Error: " +
-            error.toString()
+        dispatch(
+          setErrorMessage(
+            "Historical data is not avaible at the moment. Error: " +
+              error.toString()
+          )
         )
       );
   }, [selectedPeriod, selectedCurrency, coinId]);
@@ -85,11 +91,6 @@ function CoinPage({ selectedCurrency }) {
           setSelectedPeriod={setSelectedPeriod}
         />
       </ChartModal>
-      <ErrorModal
-        errorMessage={errorMessage}
-        show={!!errorMessage}
-        handleClose={() => setErrorMessage(null)}
-      />
     </>
   );
 }

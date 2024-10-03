@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import CoinPriceChange from './CoinPriceChange';
 
 function CoinPriceSection() {
+  console.log('CoinPriceSection');
   return (
     <Container>
       <Row>

@@ -4,7 +4,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import { periods } from "./constants";
 
 function ChartPeriods({ selectedPeriod, setSelectedPeriod }) {
-
+  console.log('ChartPeriods');
   const handleClick = (period) => {
     setSelectedPeriod(period);
   };

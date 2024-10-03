@@ -1,6 +1,7 @@
 import Table from "react-bootstrap/Table";
 
 function CoinPriceChange() {
+  console.log('CoinPriceChange');
   return (
     <Table striped bordered hover>
       <thead>

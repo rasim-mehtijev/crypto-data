@@ -6,15 +6,12 @@ import Body from "./Body";
 import { currencies } from "./constants";
 
 function App() {
-  const [selectedCurrency, setSelectedCurrency] = React.useState(currencies[0]);
+  console.log("App");
 
   return (
     <Container>
-      <Header
-        selectedCurrency={selectedCurrency}
-        setSelectedCurrency={setSelectedCurrency}
-      />
-      <Body selectedCurrency={selectedCurrency} />
+      <Header />
+      <Body />
     </Container>
   );
 }

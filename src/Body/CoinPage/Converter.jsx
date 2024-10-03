@@ -19,6 +19,7 @@ const initialState = {
 };
 
 function Converter() {
+  console.log('Converter');
   const [values, setValues] = React.useState(initialState);
 
   const handleClick = () => {

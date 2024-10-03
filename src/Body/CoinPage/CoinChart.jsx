@@ -10,6 +10,7 @@ import {
 } from "recharts";
 
 function CoinChart({ data }) {
+  console.log('CoinChart');
   return (
     <ResponsiveContainer width="100%" height={400}>
       <AreaChart
