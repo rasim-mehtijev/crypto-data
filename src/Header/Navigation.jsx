@@ -39,7 +39,9 @@ function Navigation() {
             <Link to="/" className="nav-link">
               Home
             </Link>
-            <Nav.Link href="#action2">Link</Nav.Link>
+            <Link to="/exchanges" className="nav-link">
+              Exchanges
+            </Link>
             <NavDropdown title="Currency" id="navbarScrollingDropdown">
               {currencies.map((currency) => (
                 <NavDropdown.Item

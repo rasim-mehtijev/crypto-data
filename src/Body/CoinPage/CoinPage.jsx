@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import Converter from "./Converter";
 import { useSelector, useDispatch } from "react-redux";
 import { setErrorMessage } from "../../services/store";
+import { BodyContext } from "../../providers/BodyProvider";
 
 function CoinPage() {
   console.log("CoinPage");
@@ -23,6 +24,8 @@ function CoinPage() {
   const [historicalData, setHistoricalData] = React.useState([]);
   const [selectedPeriod, setSelectedPeriod] = React.useState(periods[0]);
 
+  const { setHistoryLog } = React.useContext(BodyContext);
+
   const selectedCurrency = useSelector((state) => state.selectedCurrency);
 
   const { coinId } = useParams();
@@ -31,7 +34,16 @@ function CoinPage() {
   const handleClose = () => setChartModalShow(false);
 
   React.useEffect(() => {
-    getCoinById(coinId, selectedCurrency.name).then(setCoinData);
+    getCoinById(coinId, selectedCurrency.name).then((data) => {
+      setHistoryLog((prevState) => [
+        ...prevState.filter((log) => log.id !== coinId),
+        {
+          id: coinId,
+          name: data.name,
+        },
+      ]);
+      setCoinData(data);
+    });
   }, [selectedCurrency, coinId]);
 
   React.useEffect(() => {
@@ -41,14 +53,14 @@ function CoinPage() {
       start: selectedPeriod.start(),
       interval: selectedPeriod.interval,
     })
-      .then((data) =>
+      .then((data) => {
         setHistoricalData(
           data?.map(({ timestamp, ...rest }) => ({
             ...rest,
             timestamp: moment(timestamp).format(selectedPeriod.format),
           }))
-        )
-      )
+        );
+      })
       .catch((error) =>
         dispatch(
           setErrorMessage(
